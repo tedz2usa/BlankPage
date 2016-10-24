@@ -1,0 +1,95 @@
+<html>
+  <head>
+    <title>Blank Page</title>
+
+      <style>
+
+body {
+  font-family: Arial, sans-serif;
+}
+
+#colorDisplay {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  margin-right: 35px;
+  margin-bottom: 25px;
+  font-size: 50px;
+}
+
+    </style>
+
+  </head>
+  <body>
+    <div id='colorDisplay'></div>
+  </body>
+  <script>
+
+var log = console.log.bind(console);
+
+var body = document.getElementsByTagName('body')[0];
+var colorDisplay = document.getElementById('colorDisplay');
+body.addEventListener('keydown', onkeydown);
+
+var grayPercent = 100;
+
+var increment = 5;
+var bigIncrement = 20;
+
+function onkeydown(event) {
+  if (event.key == 'ArrowDown') {
+    if (event.shiftKey) {
+      grayPercent += bigIncrement;
+    } else {
+      grayPercent += increment;
+    }
+  } else if (event.key == 'ArrowUp') {
+    if (event.shiftKey) {
+      grayPercent -= bigIncrement;
+    } else {
+      grayPercent -= increment;
+    }
+  }
+  if (grayPercent < 0) {
+    grayPercent = 0;
+  }
+  if (grayPercent > 100) {
+    grayPercent = 100;
+  }
+  dispColor(grayPercent);
+  body.style.backgroundColor = grayPercentToCssColor(grayPercent);
+
+}
+
+var fadeOpacity, fadeTimer;
+
+function grayPercentToCssColor(grayPercent) {
+  var gray255 = Math.floor(grayPercent / 100 * 255);
+  return 'rgb(' + gray255 + ', ' + gray255 + ', ' + gray255 + ')';
+}
+
+function dispColor(grayPercent) {
+  var fontColorPercent;
+  if (grayPercent < 50) {
+    fontColorPercent = 70;
+  } else {
+    fontColorPercent = 30;
+  }
+  colorDisplay.style.color = grayPercentToCssColor(fontColorPercent);
+  colorDisplay.textContent = grayPercent;
+  fadeOpacity = 1.0;
+  clearInterval(fadeTimer);
+  fadeTimer = setInterval(updateFade, 10);
+}
+
+function updateFade() {
+  fadeOpacity -= 0.01;
+  if (fadeOpacity < 0) {
+    fadeOpacity = 0;
+    clearInterval(fadeTimer);
+  }
+  colorDisplay.style.opacity = fadeOpacity;
+}
+
+  </script>
+</html>
