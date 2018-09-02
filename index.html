@@ -36,7 +36,18 @@ var grayPercent = 100;
 var increment = 5;
 var bigIncrement = 20;
 
+var inFullscreen = false;
+
 function onkeydown(event) {
+  if (event.key == 'f' || event.key == 'F') {
+    if (inFullscreen) {
+      closeFullscreen();
+      inFullscreen = false;
+    } else {
+      openFullscreen();
+      inFullscreen = true;
+    }
+  }
   if (event.key == 'ArrowDown') {
     if (event.shiftKey) {
       grayPercent += bigIncrement;
@@ -89,6 +100,39 @@ function updateFade() {
     clearInterval(fadeTimer);
   }
   colorDisplay.style.opacity = fadeOpacity;
+}
+
+
+// Fullscreen method implementation taken from 
+// https://www.w3schools.com/howto/howto_js_fullscreen.asp 
+
+/* View in fullscreen */
+
+function openFullscreen() {
+  elem = document.documentElement;
+  if (elem.requestFullscreen) {
+    elem.requestFullscreen();
+  } else if (elem.mozRequestFullScreen) { /* Firefox */
+    elem.mozRequestFullScreen();
+  } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+    elem.webkitRequestFullscreen();
+  } else if (elem.msRequestFullscreen) { /* IE/Edge */
+    elem.msRequestFullscreen();
+  }
+}
+
+/* Close fullscreen */
+function closeFullscreen() {
+  elem = document.documentElement;
+  if (document.exitFullscreen) {
+    document.exitFullscreen();
+  } else if (document.mozCancelFullScreen) { /* Firefox */
+    document.mozCancelFullScreen();
+  } else if (document.webkitExitFullscreen) { /* Chrome, Safari and Opera */
+    document.webkitExitFullscreen();
+  } else if (document.msExitFullscreen) { /* IE/Edge */
+    document.msExitFullscreen();
+  }
 }
 
   </script>
